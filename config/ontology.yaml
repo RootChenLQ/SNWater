@@ -1,0 +1,82 @@
+# Hydropower Knowledge Graph Ontology Definition
+
+entities:
+  - name: HydropowerStation
+    description: "A specific hydropower station."
+    properties:
+      - name: string
+      - capacity_mw: float
+      - location: string
+      - river: string
+
+  - name: DispatchRule
+    description: "A specific rule for operating the station under certain conditions."
+    properties:
+      - rule_id: string
+      - description: string
+
+  - name: Scenario
+    description: "The context or situation in which a rule applies (e.g., 'Flood Season', 'Drought')."
+    properties:
+      - name: string
+
+  - name: Condition
+    description: "A prerequisite for a dispatch rule, involving a measured parameter."
+    properties:
+      - parameter: string  # e.g., 'Water Level', 'Inflow'
+      - operator: string   # e.g., '>', '<', '='
+      - value: string      # e.g., '1880m', '1000 m^3/s'
+
+  - name: Event
+    description: "An occurrence that might trigger a dispatch action."
+    properties:
+      - name: string # e.g., 'Upstream Flood Peak', 'Grid Emergency'
+
+  - name: Operation
+    description: "An action to be taken as part of a rule."
+    properties:
+      - action_type: string # e.g., 'Open Gate', 'Increase Generation'
+      - details: string
+
+  - name: Parameter
+    description: "Engineering or hydrological characteristics of a station."
+    properties:
+      - name: string # e.g., 'Normal Water Level'
+      - value: string
+      - unit: string
+
+relationships:
+  - name: HAS_RULE
+    source: HydropowerStation
+    target: DispatchRule
+    description: "Connects a station to its dispatch rules."
+
+  - name: APPLIES_IN_SCENARIO
+    source: DispatchRule
+    target: Scenario
+    description: "Links a rule to the scenario it applies to."
+
+  - name: HAS_CONDITION
+    source: DispatchRule
+    target: Condition
+    description: "Specifies the conditions under which a rule is active."
+
+  - name: TRIGGERED_BY
+    source: DispatchRule
+    target: Event
+    description: "Links a rule to a triggering event."
+
+  - name: INCLUDES_OPERATION
+    source: DispatchRule
+    target: Operation
+    description: "Details the specific operations within a rule."
+
+  - name: HAS_PARAMETER
+    source: HydropowerStation
+    target: Parameter
+    description: "Connects a station to its engineering and hydrological parameters."
+
+  - name: IS_UPSTREAM_OF
+    source: HydropowerStation
+    target: HydropowerStation
+    description: "Defines the topological relationship between two stations on the same river."
