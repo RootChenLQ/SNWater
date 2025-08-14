@@ -1,0 +1,55 @@
+You are an expert system for knowledge graph construction, specializing in the domain of hydropower plant operations. Your task is to carefully read the provided text and extract entities and relationships according to the ontology provided below.
+
+**Ontology Definition:**
+```yaml
+# This section will be dynamically filled with the content of ontology.yaml
+{{ontology}}
+```
+
+**Instructions:**
+1.  Analyze the text chunk provided under "Text to Analyze".
+2.  Identify all entities (like HydropowerStation, DispatchRule, Condition, etc.) and their properties.
+3.  Identify all relationships between these entities (like HAS_RULE, HAS_CONDITION, etc.).
+4.  It is critical that you only extract information explicitly mentioned in the text. Do not infer or add information that is not present.
+5.  Format your output as a single JSON object with two keys: `entities` and `relationships`.
+6.  The `entities` key should contain a list of all extracted entities. Each entity should be an object with a `type` field (e.g., "HydropowerStation") and a `properties` field containing the extracted attributes.
+7.  The `relationships` key should contain a list of all extracted relationships. Each relationship should be an object with a `type` (e.g., "HAS_RULE"), a `source` (the name or ID of the source entity), and a `target` (the name or ID of the target entity). You must assign a unique `id` to each entity you create, so you can reference it in the relationships. For example, `{"type": "HydropowerStation", "properties": {"id": "station-1", "name": "Example Dam"}}` and then a relationship can be `{"type": "HAS_RULE", "source": "station-1", "target": "rule-3"}`.
+8.  If no information can be extracted from the text, return an empty JSON object: `{"entities": [], "relationships": []}`.
+
+**Output Format Example:**
+```json
+{
+  "entities": [
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "淋部沟水电站"
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "正常蓄水位",
+        "value": "3028.00",
+        "unit": "m"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    }
+  ]
+}
+```
+
+**Text to Analyze:**
+```text
+{{text_chunk}}
+```
+
+**Extracted Knowledge (JSON):**

@@ -1,0 +1,21 @@
+# PDF Processing
+PyMuPDF
+pytesseract
+Pillow
+
+# LLM Interaction
+ollama
+openai
+
+# Neo4j
+neo4j
+
+# Web Framework (for later parts)
+fastapi
+uvicorn
+
+# Others
+python-dotenv
+
+# Testing
+pytest

@@ -1,0 +1,344 @@
+{
+  "entities": [
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "淋部沟水电站"
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "正常蓄水位",
+        "value": "3028.00",
+        "unit": "m"
+      }
+    },
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "淋部沟水电站"
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "正常蓄水位",
+        "value": "3028.00",
+        "unit": "m"
+      }
+    },
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "瀑布沟水电站"
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "正常蓄水位",
+        "value": "850",
+        "unit": "m"
+      }
+    },
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "淋部沟水电站"
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "正常蓄水位",
+        "value": "3028.00",
+        "unit": "m"
+      }
+    },
+    {
+      "type": "Scenario",
+      "properties": {
+        "id": "scenario-1",
+        "name": "百年一遇及以下潜水"
+      }
+    },
+    {
+      "type": "Condition",
+      "properties": {
+        "id": "condition-1",
+        "parameter": "下游区间来水",
+        "operator": "<",
+        "value": "5680m7s"
+      }
+    },
+    {
+      "type": "Event",
+      "properties": {
+        "id": "event-1",
+        "name": "防洪需求"
+      }
+    },
+    {
+      "type": "Operation",
+      "properties": {
+        "id": "operation-1",
+        "action_type": "下泄流量",
+        "details": ""
+      }
+    },
+    {
+      "type": "DispatchRule",
+      "properties": {
+        "id": "rule-1",
+        "description": ""
+      }
+    },
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "淋部沟水电站"
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "正常蓄水位",
+        "value": "3028.00",
+        "unit": "m"
+      }
+    },
+    {
+      "type": "Condition",
+      "properties": {
+        "parameter": "库水位",
+        "operator": ">=",
+        "value": "830m"
+      }
+    },
+    {
+      "type": "Condition",
+      "properties": {
+        "parameter": "库水位",
+        "operator": "<=",
+        "value": "790m"
+      }
+    },
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "",
+        "location": "",
+        "river": ""
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "",
+        "value": "",
+        "unit": ""
+      }
+    },
+    {
+      "type": "HydropowerStation",
+      "properties": {
+        "id": "station-lbg-1",
+        "name": "淋部沟水电站"
+      }
+    },
+    {
+      "type": "Parameter",
+      "properties": {
+        "id": "param-1",
+        "name": "正常蓄水位",
+        "value": "3028.00",
+        "unit": "m"
+      }
+    },
+    {
+      "type": "Event",
+      "properties": {
+        "id": "event-1",
+        "name": "洪水预报"
+      }
+    },
+    {
+      "type": "Condition",
+      "properties": {
+        "id": "condition-1",
+        "parameter": "库水位",
+        "operator": "<=",
+        "value": "805m"
+      }
+    },
+    {
+      "type": "Condition",
+      "properties": {
+        "id": "condition-2",
+        "parameter": "库水位",
+        "operator": ">=",
+        "value": "840m"
+      }
+    },
+    {
+      "type": "Operation",
+      "properties": {
+        "id": "op-1",
+        "action_type": "开启向下游补水"
+      }
+    },
+    {
+      "type": "DispatchRule",
+      "properties": {
+        "id": "rule-1",
+        "description": "优先使用放空洞局间向下游补水"
+      }
+    },
+    {
+      "type": "DispatchRule",
+      "properties": {
+        "id": "rule-2",
+        "description": "局部开启泄洪洞或溢洪道向下游补水"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    },
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    },
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    },
+    {
+      "type": "HAS_RULE",
+      "source": "station-lbg-1",
+      "target": "rule-1"
+    },
+    {
+      "type": "HAS_RULE",
+      "source": "station-lbg-1",
+      "target": "rule-1"
+    },
+    {
+      "type": "APPLIES_IN_SCENARIO",
+      "source": "rule-1",
+      "target": "scenario-1"
+    },
+    {
+      "type": "HAS_CONDITION",
+      "source": "rule-1",
+      "target": "condition-1"
+    },
+    {
+      "type": "TRIGGERED_BY",
+      "source": "rule-1",
+      "target": "event-1"
+    },
+    {
+      "type": "INCLUDES_OPERATION",
+      "source": "rule-1",
+      "target": "operation-1"
+    },
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    },
+    {
+      "type": "IS_UPSTREAM_OF",
+      "source": "station-lbg-1",
+      "target": "station-lbg-2"
+    },
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    },
+    {
+      "type": "APPLIES_IN_SCENARIO",
+      "source": null,
+      "target": null
+    },
+    {
+      "type": "HAS_CONDITION",
+      "source": null,
+      "target": {
+        "parameter": "库水位",
+        "operator": ">=",
+        "value": "830m"
+      }
+    },
+    {
+      "type": "TRIGGERED_BY",
+      "source": null,
+      "target": null
+    },
+    {
+      "type": "INCLUDES_OPERATION",
+      "source": null,
+      "target": null
+    },
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    },
+    {
+      "type": "HAS_PARAMETER",
+      "source": "station-lbg-1",
+      "target": "param-1"
+    },
+    {
+      "type": "TRIGGERED_BY",
+      "source": "rule-1",
+      "target": "event-1"
+    },
+    {
+      "type": "HAS_CONDITION",
+      "source": "rule-1",
+      "target": "condition-1"
+    },
+    {
+      "type": "HAS_CONDITION",
+      "source": "rule-2",
+      "target": "condition-2"
+    },
+    {
+      "type": "INCLUDES_OPERATION",
+      "source": "rule-1",
+      "target": "op-1"
+    },
+    {
+      "type": "INCLUDES_OPERATION",
+      "source": "rule-2",
+      "target": "op-1"
+    },
+    {
+      "type": "HAS_RULE",
+      "source": "station-lbg-1",
+      "target": "rule-1"
+    }
+  ]
+}
