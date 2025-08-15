@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydropower Knowledge Graph</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Hydropower Dispatch Knowledge Graph</h1>
+
+    <div class="container">
+        <!-- Part 2: Knowledge Visualization -->
+        <div class="visualization-container">
+            <h2>Knowledge Graph Visualization</h2>
+            <div class="controls">
+                <input type="text" id="search-input" placeholder="Enter keywords to search...">
+                <button id="search-button">Search</button>
+            </div>
+            <div id="graph-container"></div>
+            <div id="node-info">
+                <h3>Node Properties</h3>
+                <pre id="node-properties"></pre>
+            </div>
+        </div>
+
+        <!-- Part 3: Knowledge Q&A -->
+        <div class="qa-container">
+            <h2>Decision Support Q&A</h2>
+            <div class="qa-form">
+                <input type="text" id="qa-station" placeholder="Station Name">
+                <input type="number" id="qa-flow" placeholder="Flow (m³/s)">
+                <input type="number" id="qa-level" placeholder="Water Level (m)">
+                <button id="qa-button">Get Recommendation</button>
+            </div>
+            <div id="qa-result">
+                <h3>Recommendation:</h3>
+                <p id="recommendation-text">Awaiting input...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- D3.js library for visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Main application script -->
+    <script src="app.js"></script>
+</body>
+</html>
