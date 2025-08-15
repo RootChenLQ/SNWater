@@ -1,0 +1,82 @@
+{
+  "entities": [
+    {
+      "id": "hydropower_scheduling",
+      "name": "水电调度",
+      "type": "核心领域",
+      "description": "规划和优化水电站运行的过程，旨在平衡发电、防洪、航运、生态等多种目标。"
+    },
+    {
+      "id": "long_term_scheduling",
+      "name": "长期调度",
+      "type": "调度类型",
+      "description": "以年或季节为单位的调度，主要关注水资源的战略性分配和水库的长期蓄水计划。",
+      "details": "目标是确定一个保证的发电计划，并评估不同情景下的经济和生态效益。"
+    },
+    {
+      "id": "short_term_scheduling",
+      "name": "短期调度",
+      "type": "调度类型",
+      "description": "以日或小时为单位的调度，专注于在动态和不确定的市场环境下，最大化短期收益或满足实时电力需求。",
+      "details": "需要考虑市场电价和入库流量等不确定性因素。"
+    },
+    {
+      "id": "multi_objective_optimization",
+      "name": "多目标优化",
+      "type": "核心问题",
+      "description": "在水电调度中，需要同时平衡多个相互冲突的目标，如发电效益、航运需求和生态保护，这是一个典型的多目标优化问题，也称为帕累托问题。"
+    },
+    {
+      "id": "dynamic_programming",
+      "name": "动态规划",
+      "type": "优化算法",
+      "description": "一种经典优化技术，因其能够有效处理非线性问题，在水电调度中被广泛应用。",
+      "advantages": "能够方便地处理目标函数和约束中的非线性关系。",
+      "disadvantages": "确定性DP的解可能过于乐观，因为它假设对未来事件（如入库流量）有完美的预知。"
+    },
+    {
+      "id": "stochastic_dynamic_programming",
+      "name": "随机动态规划",
+      "type": "优化算法",
+      "description": "动态规划的一种变体，用于处理未来不确定性（如水量、电价）的调度问题。它以概率方式对不确定性建模。",
+      "advantages": "能更真实地反映现实世界的不确定性，并处理非凸关系。"
+    },
+    {
+      "id": "nsga_ii",
+      "name": "NSGA-II",
+      "type": "优化算法",
+      "description": "非支配排序遗传算法II (Non-dominated Sorting Genetic Algorithm II)，一种高效的多目标遗传算法，在现代水电调度研究中被频繁使用。",
+      "features": "采用快速非支配排序、拥挤度距离和精英策略来提高计算效率和解的多样性。",
+      "advantages": "计算速度快，鲁棒性好。"
+    },
+    {
+      "id": "power_load_prediction",
+      "name": "电力负荷预测",
+      "type": "关键子问题",
+      "description": "在无法及时获取电网负荷数据时，对未来的电力需求进行预测。这是优化调度模型的关键输入。",
+      "challenge": "解决因电网负荷数据延迟导致的调度次优化问题。"
+    },
+    {
+      "id": "cnn_gru",
+      "name": "CNN-GRU",
+      "type": "预测模型",
+      "description": "卷积神经网络(CNN)和门控循环单元(GRU)的混合深度学习模型，在电力负荷预测等时间序列任务中表现出色。"
+    }
+  ],
+  "triples": [
+    { "subject": "long_term_scheduling", "predicate": "is_a_type_of", "object": "hydropower_scheduling" },
+    { "subject": "short_term_scheduling", "predicate": "is_a_type_of", "object": "hydropower_scheduling" },
+    { "subject": "hydropower_scheduling", "predicate": "is_a", "object": "multi_objective_optimization" },
+    { "subject": "hydropower_scheduling", "predicate": "uses_algorithm", "object": "dynamic_programming" },
+    { "subject": "hydropower_scheduling", "predicate": "uses_algorithm", "object": "nsga_ii" },
+    { "subject": "hydropower_scheduling", "predicate": "involves_subproblem", "object": "power_load_prediction" },
+    { "subject": "stochastic_dynamic_programming", "predicate": "is_a_variant_of", "object": "dynamic_programming" },
+    { "subject": "dynamic_programming", "predicate": "has_variant", "object": "stochastic_dynamic_programming" },
+    { "subject": "nsga_ii", "predicate": "is_a", "object": "multi_objective_optimization" },
+    { "subject": "power_load_prediction", "predicate": "uses_model", "object": "cnn_gru" },
+    { "subject": "long_term_scheduling", "predicate": "considers", "object": "经济效益" },
+    { "subject": "long_term_scheduling", "predicate": "considers", "object": "生态效益" },
+    { "subject": "short_term_scheduling", "predicate": "considers", "object": "市场电价" },
+    { "subject": "short_term_scheduling", "predicate": "considers", "object": "入库流量不确定性" }
+  ]
+}
