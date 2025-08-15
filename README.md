@@ -1,105 +1,151 @@
 # Hydropower Dispatch Knowledge Graph System
 
-## Overview
+## 1. Overview
 
-This project is a comprehensive Python-based system for building, visualizing, and querying a knowledge graph for hydropower dispatch operations. The system is designed to process unstructured documents (like PDFs of dispatch rules), extract key information using Large Language Models (LLMs), store it in a graph database, and provide interfaces for visualization and question-answering.
+This project is a comprehensive Python-based system for building, visualizing, and querying a knowledge graph for hydropower dispatch operations. The system is designed to process unstructured documents (like PDFs of dispatch rules), extract key information using Large Language Models (LLMs), store it in a graph database (Neo4j), and provide a web-based interface for visualization and question-answering.
 
 The project is divided into three main parts:
 1.  **Knowledge Extraction**: Parses PDFs, extracts text and tables, and uses an LLM to build a knowledge graph in Neo4j.
-2.  **Knowledge Visualization**: A Python-based UI to explore the knowledge graph with features like fuzzy search, gravity-based layout, and property editing. (Future Work)
-3.  **Knowledge Q&A**: A question-answering interface that takes operational conditions (e.g., water level, flow) and recommends the optimal dispatch rule by querying the graph and summarizing with an LLM. (Future Work)
+2.  **Knowledge Visualization**: A web UI to explore the knowledge graph with features like fuzzy search, gravity-based layout, and property editing.
+3.  **Knowledge Q&A**: A question-answering interface that takes operational conditions and recommends the optimal dispatch rule.
 
-This initial implementation focuses on completing **Part 1: Knowledge Extraction**.
+## 2. Features
 
-## Features (Part 1: Knowledge Extraction)
-
+### Knowledge Extraction (Part 1)
 *   **PDF Processing**: Extracts text from both native and scanned PDFs using PyMuPDF and Tesseract OCR.
-*   **Configurable Ontology**: Knowledge graph structure (nodes and relationships) is defined in a human-readable `config/ontology.yaml` file.
-*   **LLM-Powered Extraction**: Uses an LLM to parse the extracted text and convert it into structured graph data (entities and relationships).
-    *   Supports both local models (via Ollama) and remote APIs (e.g., DeepSeek, OpenAI).
-    *   Uses a detailed prompt template (`config/extraction_prompt.txt`) for reliable, structured JSON output.
-*   **Graph Database Integration**: Imports the structured data into a Neo4j database using `MERGE` queries to prevent duplication.
-*   **End-to-End Pipeline**: A main script (`src/knowledge_extraction/main_pipeline.py`) orchestrates the entire workflow from PDF to Neo4j.
+*   **Configurable Ontology**: Graph structure is defined in a human-readable `config/ontology.yaml` file.
+*   **LLM-Powered Extraction**: Uses an LLM to parse text and convert it into structured graph data.
+*   **Graph Database Integration**: Imports the structured data into a Neo4j database.
+*   **End-to-End Pipeline**: A script (`src/knowledge_extraction/main_pipeline.py`) orchestrates the entire workflow.
 
-## Project Structure
+### Visualization & Q&A (Part 2 & 3)
+*   **FastAPI Backend**: A robust asynchronous backend serves the API and frontend.
+*   **Dynamic Graph Visualization**: An interactive, force-directed graph visualization built with D3.js.
+*   **Search**: Fuzzy search functionality to find nodes within the graph.
+*   **Interactive UI**: Nodes can be dragged and clicked to inspect their properties.
+*   **Node Property Editing**: Select a node to view its properties in a form and submit changes back to the database.
+*   **AI-Powered Q&A**: A decision-support system that takes station conditions (flow, water level) and uses an LLM to recommend the most appropriate dispatch rule from the knowledge graph.
+
+## 3. Project Structure
 
 ```
 .
-├── config/                  # Configuration files
-│   ├── ontology.yaml        # Defines the knowledge graph structure
-│   └── extraction_prompt.txt # Prompt template for the LLM
-├── data/                    # Data files
-│   ├── example.pdf          # An example PDF document
-│   └── extracted_knowledge.json # (Simulated) output from the LLM
+├── config/                  # Configuration files for the extraction pipeline
+├── data/                    # Data files (PDFs, JSON outputs)
 ├── src/
-│   └── knowledge_extraction/ # Source code for the extraction pipeline
-│       ├── pdf_parser.py     # Handles PDF reading and OCR
-│       ├── llm_extractor.py  # Handles interaction with the LLM
-│       ├── neo4j_importer.py # Handles importing data into Neo4j
-│       └── main_pipeline.py  # Orchestrates the entire pipeline
+│   ├── knowledge_extraction/ # Module for the Part 1 data pipeline
+│   ├── static/               # Frontend files (HTML, CSS, JS)
+│   │   ├── index.html
+│   │   ├── style.css
+│   │   └── app.js
+│   ├── graph_db.py           # Handles all Neo4j queries for the web app
+│   ├── main.py               # The FastAPI application server
+│   └── qa_system.py          # Handles the Q&A logic with the LLM
 ├── tests/                   # Unit tests
 ├── .env.example             # Example environment variables file
 ├── pytest.ini               # Configuration for pytest
 └── requirements.txt         # Python package dependencies
 ```
 
-## Setup and Installation
+## 4. Setup and Installation
 
-### 1. Prerequisites
+### Step 1: Prerequisites
 
-You must have the Tesseract OCR engine installed on your system.
+*   **Python 3.10+**
+*   **Tesseract OCR Engine**: Required for Part 1 (Knowledge Extraction).
+    ```bash
+    # On Debian/Ubuntu
+    sudo apt-get update
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim
+    ```
+*   **Docker** and **Docker Compose**: Recommended for running the Neo4j database.
 
-On Debian/Ubuntu:
-```bash
-sudo apt-get update
-sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim
-```
-The `tesseract-ocr-chi-sim` package is for Simplified Chinese language support.
-
-### 2. Clone the Repository
+### Step 2: Clone the Repository
 
 ```bash
 git clone <repository_url>
 cd <repository_name>
 ```
 
-### 3. Set up Environment
+### Step 3: Set up Neo4j Database
 
-It is recommended to use a Python virtual environment.
+The easiest way to run Neo4j is with Docker.
+1.  Create a `docker-compose.yml` file in the root of the project with the following content:
+    ```yaml
+    version: '3.8'
+    services:
+      neo4j:
+        image: neo4j:5.20.0
+        container_name: neo4j_hydropower
+        ports:
+          - "7474:7474"
+          - "7687:7687"
+        volumes:
+          - ./neo4j-data:/data
+        environment:
+          - NEO4J_AUTH=neo4j/password  # Sets the username to 'neo4j' and password to 'password'
+          - NEO4J_PLUGINS=["apoc"]
+    ```
+2.  Start the database:
+    ```bash
+    docker-compose up -d
+    ```
+    You can now access the Neo4j Browser at `http://localhost:7474`.
+
+### Step 4: Configure Environment Variables
+
+1.  Create a `.env` file from the example:
+    ```bash
+    cp .env.example .env
+    ```
+2.  Edit the `.env` file. If you used the Docker setup above, the default Neo4j credentials will work. You must add your **DeepSeek API Key**.
+    ```
+    NEO4J_URI="neo4j://localhost:7687"
+    NEO4J_USER="neo4j"
+    NEO4J_PASSWORD="password"
+    LLM_API_BASE_URL="https://api.deepseek.com"
+    LLM_API_KEY="sk-..." # <-- PASTE YOUR KEY HERE
+    ```
+
+### Step 5: Install Python Dependencies
+
+Create and activate a virtual environment, then install the packages.
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-```
-
-Create a `.env` file by copying the example and fill in your details:
-```bash
-cp .env.example .env
-```
-Now, edit the `.env` file to add your API keys and database credentials.
-
-### 4. Install Dependencies
-
-Install all the required Python packages:
-```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+## 5. Usage
 
-The main pipeline can be run from the root of the project directory:
+### Step 1: Populate the Knowledge Graph
 
+First, you need to run the knowledge extraction pipeline to process the PDF and populate your Neo4j database.
 ```bash
 python3 src/knowledge_extraction/main_pipeline.py
 ```
+This script uses the dummy data in `data/extracted_knowledge.json` to populate the database.
 
-This script will:
-1.  Read the text from `data/extracted_text_ocr.txt`.
-2.  Check for a pre-existing `data/extracted_knowledge.json`. If it exists (as the dummy file does), it will use it. Otherwise, it would call the LLM API defined in your `.env` file.
-3.  Attempt to connect to the Neo4j database specified in your `.env` file, clear it, and import the knowledge graph data.
+### Step 2: Run the Web Application
 
-**Note on the current implementation:** Due to limitations in the development environment (aggressive timeouts), the LLM extraction and Neo4j import steps could not be fully tested. The pipeline is designed to use a dummy data file (`data/extracted_knowledge.json`) and fail gracefully if it cannot connect to the database, allowing the overall structure to be demonstrated.
+Start the FastAPI server using uvicorn.
+```bash
+uvicorn src.main:app --reload
+```
+The `--reload` flag automatically reloads the server when you make code changes.
 
-## Next Steps
+### Step 3: Use the Application
 
-*   **Part 2: Knowledge Visualization**: Develop a web-based interface using FastAPI to query the Neo4j database and visualize the graph results dynamically.
-*   **Part 3: Knowledge Q&A**: Build the question-answering system to provide decision support for hydropower dispatch operations.
+1.  Open your web browser and navigate to `http://localhost:8000`.
+2.  **Visualize the Graph**: The graph should load automatically. You can search for specific nodes using the search bar (e.g., "淋部沟").
+3.  **Interact**: Drag nodes around. Click on a node to see its properties appear in the panel on the right.
+4.  **Edit Properties**: Modify the properties in the form and click "Save Changes". The graph will refresh to show the updated data.
+5.  **Get Recommendations**: In the Q&A section, enter a station name and conditions (e.g., Station: `淋部沟水电站`, Flow: `1500`, Level: `3020`) and click "Get Recommendation" to see the LLM-powered advice.
+
+## 6. API Endpoints
+
+The FastAPI server provides the following endpoints:
+*   `GET /`: Serves the frontend application (`index.html`).
+*   `GET /api/search?q={query}`: Searches the graph. Returns nodes and links.
+*   `POST /api/node/update`: Updates a node's properties. Expects a JSON body with `id` and `properties`.
+*   `POST /api/qna`: Gets a dispatch recommendation. Expects a JSON body with `station`, `flow`, and `level`.
